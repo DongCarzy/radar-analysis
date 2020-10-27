@@ -2,20 +2,18 @@ package com.dxp.radar.handler;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
-import io.netty.channel.socket.ServerSocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-
-import java.nio.ByteOrder;
 
 /**
  * 初始化 TCP 处理链路
  */
 public class ServerInitializer extends ChannelInitializer<NioSocketChannel> {
 
+    /**
+     * 线程安全的handler, 均采用单例,节约内存
+     */
     private static final LoggingHandler LOGGING_HANDLER = new LoggingHandler(LogLevel.DEBUG);
     private static final ServerHandler serverHandler = new ServerHandler();
 

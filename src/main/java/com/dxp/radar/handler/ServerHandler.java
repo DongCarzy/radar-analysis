@@ -1,6 +1,5 @@
 package com.dxp.radar.handler;
 
-import com.dxp.radar.Application;
 import com.dxp.radar.code.TrackingReq;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
