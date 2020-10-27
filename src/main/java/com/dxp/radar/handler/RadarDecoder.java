@@ -40,21 +40,21 @@ public class RadarDecoder extends ByteToMessageDecoder {
      * @param in ByteBuf 客户端发送上来的字节码
      */
     private void decode0(ByteBuf in, ChannelHandlerContext ctx) {
-        if (in.readUnsignedShort() != 0x2101) {
+        if (in.readUnsignedShortLE() != 0x2101) {
             logger.error("read head data is not 0x2101");
             logger.info("try to close channel. ", ctx.channel().toString());
             ctx.close();
         }
         // 除去头还有32字节
         req = new TrackingReq();
-        req.setNo(in.readUnsignedShort());
-        req.setTrackNo(in.readUnsignedInt());
-        req.setX(in.readFloat());
-        req.setY(in.readFloat());
-        req.setZ(in.readFloat());
-        req.setSpeed(in.readFloat());
-        req.setHorizontal(in.readUnsignedShort());
-        req.setVertical(in.readUnsignedShort());
+        req.setNo(in.readUnsignedShortLE());
+        req.setTrackNo(in.readUnsignedIntLE());
+        req.setX(in.readFloatLE());
+        req.setY(in.readFloatLE());
+        req.setZ(in.readFloatLE());
+        req.setSpeed(in.readFloatLE());
+        req.setHorizontal(in.readUnsignedShortLE());
+        req.setVertical(in.readUnsignedShortLE());
         req.setCause(in.readByte());
         req.setLaneNo(in.readByte());
         req.setTargetCarType(in.readByte());
@@ -64,7 +64,7 @@ public class RadarDecoder extends ByteToMessageDecoder {
             logger.error("check crc err, sum {}, data {}", crc, req.toString());
         }
         // 尾巴
-        req.setFooter(in.readUnsignedShort());
+        req.setFooter(in.readUnsignedShortLE());
     }
 
     private byte checkCrc() {

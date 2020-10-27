@@ -1,6 +1,7 @@
 package com.dxp.radar.code;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.UnpooledByteBufAllocator;
 
 
@@ -211,20 +212,20 @@ public class TrackingReq {
     private void createBytes() {
         ByteBuf byteBuf = UnpooledByteBufAllocator.DEFAULT.buffer(34);
         try {
-            byteBuf.writeShort(0x2101);
-            byteBuf.writeShort(this.getNo());
-            byteBuf.writeInt((int) (trackNo & 0xFFFF));
-            byteBuf.writeFloat(this.getX());
-            byteBuf.writeFloat(this.getY());
-            byteBuf.writeFloat(this.getZ());
-            byteBuf.writeFloat(this.getSpeed());
-            byteBuf.writeShort(this.getHorizontal());
-            byteBuf.writeShort(this.getVertical());
+            byteBuf.writeShortLE(0x2101);
+            byteBuf.writeShortLE(this.getNo());
+            byteBuf.writeIntLE((int) (trackNo & 0xFFFF));
+            byteBuf.writeFloatLE(this.getX());
+            byteBuf.writeFloatLE(this.getY());
+            byteBuf.writeFloatLE(this.getZ());
+            byteBuf.writeFloatLE(this.getSpeed());
+            byteBuf.writeShortLE(this.getHorizontal());
+            byteBuf.writeShortLE(this.getVertical());
             byteBuf.writeByte(this.getCause());
             byteBuf.writeByte(this.getLaneNo());
             byteBuf.writeByte(this.getTargetCarType());
             byteBuf.writeByte(this.getCrc());
-            byteBuf.writeShort(0xDEFF);
+            byteBuf.writeShortLE(0xDEFF);
             this.bytes = new byte[34];
             byteBuf.readBytes(bytes);
         } finally {
@@ -247,8 +248,8 @@ public class TrackingReq {
                 ", cause=" + cause +
                 ", laneNo=" + laneNo +
                 ", targetCarType=" + targetCarType +
-                ", crc=" + crc +
-                ", footer=" + footer +
+                ", crc=" + Integer.toHexString(crc) +
+                ", footer=" + Integer.toHexString(footer) +
                 '}';
     }
 }

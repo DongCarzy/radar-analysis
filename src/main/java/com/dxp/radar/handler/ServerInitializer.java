@@ -17,6 +17,7 @@ import java.nio.ByteOrder;
 public class ServerInitializer extends ChannelInitializer<NioSocketChannel> {
 
     private static final LoggingHandler LOGGING_HANDLER = new LoggingHandler(LogLevel.DEBUG);
+    private static final ServerHandler serverHandler = new ServerHandler();
 
     @Override
     protected void initChannel(NioSocketChannel ch) throws Exception {
@@ -29,6 +30,6 @@ public class ServerInitializer extends ChannelInitializer<NioSocketChannel> {
         pipeline.addLast(new RadarDecoder());
 
         // 业务处理
-        pipeline.addLast(new ServerHandler());
+        pipeline.addLast(serverHandler);
     }
 }
